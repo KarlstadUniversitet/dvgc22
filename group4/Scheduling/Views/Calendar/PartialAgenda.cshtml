@@ -1,0 +1,122 @@
+﻿@model Repository.CalendarViewModel
+@{
+    ViewBag.Title = "Agenda";
+
+    int days = Model.Days();
+    int week = 0;
+    string todayColor;
+}
+<div id="buttonOptions">
+<div class="titlediv">
+    <h2 class="h2float">Agenda</h2>
+    <ul class="modeSwitcher">    
+        <li><a id="calendarMode" href="#" onclick="
+             @if (ViewBag.CategoryName!=null)
+            {
+                @Html.Raw("load_course(\"\",\"MonthCategory/"+ @ViewBag.CategoryName+"\");")
+            }else
+            {
+               @Html.Raw("load_course(\""+@ViewBag.code+"\",\"Month\");")
+            }">Switch to calendar</a></li>
+    </ul>
+</div>
+
+
+<div class ="courseList">@{
+    string codeColor;
+    foreach(var lec in Model.GetUniqueCourseList())
+    {
+        codeColor = Model.GetColor(lec);
+        @Html.Raw("<text onclick='hide_div_with("+"\""+@codeColor+"\""+")' class='codeColor " + @codeColor + "'>")
+        @Html.Raw(lec.course.Substring(0,6))   
+        @Html.Raw("</text>")    
+    }
+}
+</div>
+<div class="breakList">
+    <label onclick="toggle_back(); hide_div_with('lectureBreak')" class="breakText colorBreak" id="toggleBreaks">Toggle breaks</label>
+    <label onclick="toggle_breaks();" class="breakText colorBreak" id="breaks">Only show breaks</label>
+</div>
+    <br/>
+</div>
+    <div class="description" ><span onclick="return;$(this).replaceWith('<input type=\'text\' /><button>Derp</button>');"><h1>@Model.Description</h1></span></div>
+<div id="agenda-wrapper">
+<div class="agenda">
+
+    <label onclick="exitButtonClick();" style="float:right;" class="breakText colorBreak" id="exitButton">X</label>
+    <table class="calendarAgenda">
+        
+         <tr>
+            <th class="calPost">W</th>
+            <th class="calPost">Time</th>
+            <th class="calPost">Classroom</th>
+            <th class="calPost">Coursecode</th>
+            <th class="calPost">Teacher</th>
+            <th class="calPost">Info</th>
+        </tr>
+        @{
+            bool isDayAdded = false;
+            
+            System.Globalization.Calendar cal = new System.Globalization.GregorianCalendar();
+            System.Globalization.CalendarWeekRule rule = System.Globalization.CalendarWeekRule.FirstDay;
+            DayOfWeek firstDay = DayOfWeek.Monday;
+            int day=8;
+            foreach (Domain.Lecture lecture in Model.lectures)
+            {
+                    if (lecture.startTime.Date < DateTime.Today)
+                    {
+                        continue;
+                    }
+                    if(lecture.startTime.Day != day)
+                    {
+                        isDayAdded = false;
+                    }
+                    if (!isDayAdded)
+                    {   
+                        day = lecture.startTime.Day;
+                        if (Model.IsToday(lecture.startTime.Date))
+                        {
+                            todayColor = "colorDay";
+                        }
+                        else
+                        {
+                            todayColor = "colorEveryDay";
+                        }
+                        <tr>
+                            @{  if (week != cal.GetWeekOfYear(lecture.startTime, rule, firstDay))
+                                {
+                                    <td class="weekCol">
+                                        @Html.Raw(cal.GetWeekOfYear(lecture.startTime, rule, firstDay))
+                                    </td>
+                                    week = cal.GetWeekOfYear(lecture.startTime, rule, firstDay);
+                                }
+                                else
+                                {
+                                    <td class="weekCol"></td>
+                                }
+                            }
+                            <td class="dateItem @todayColor" colspan="5">@lecture.startTime.DayOfWeek @lecture.startTime.Day @lecture.startTime.ToString("y")</td>
+                        </tr>
+                        isDayAdded = true;
+                    }
+                        <tr class="@Model.GetColor(lecture) popout @Model.GetColor(lecture)togg toggleable @lecture.getExamStatus() " >
+                            <td class="weekCol"></td>
+                            <td class="agendatime">@lecture.startTime.ToShortTimeString()-@lecture.endTime.ToShortTimeString()</td>
+                            <td class="calPost">@Html.DisplayFor(lectureModel => lecture.classroom)</td>
+                            <td class="calPost">@Html.DisplayFor(lectureModel => lecture.course)</td>
+                            <td class="calPost">@Html.DisplayFor(lectureModel => lecture.teacher)</td>
+                            <td class="calPost">@Html.DisplayFor(lectureModel => lecture.info)</td>
+                        </tr>
+                
+            }
+
+            if (isDayAdded)
+            {
+            @Html.Raw("</tr><tr>")
+            }
+        }
+
+
+    </table>
+</div>
+    </div>

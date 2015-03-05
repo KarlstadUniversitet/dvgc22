@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Domain.Application>
+
+@{
+    ViewBag.Title = "Search";
+    var savedCourseLink = ViewBag.CourseLink;
+    var savedCourseView = ViewBag.CourseView;
+}
+
+<div id="searchdiv">
+    @if (!String.IsNullOrEmpty(ViewBag.SearchWords) && Model.Count() > 0)
+    {
+        <div style = "width:20em;overflow:hidden;"><h2>Search result for @ViewBag.SearchWords</h2></div>
+      
+
+        foreach (Domain.Application application in Model)
+        {  
+            <ul class="nav search">
+                <li>
+                    <a href="#" onclick="save_course_code('@application.Code'); show_add_course();">+</a>
+                </li>
+                <li>
+                    <a href="#" onclick="load_coursecode('@application.Code')">@application.Code - @application.CourseCode - @application.CourseName</a>
+                </li>
+            </ul>
+        }
+        
+        <br /><br /><div id="course_added"></div><br />
+        
+        <div id="addcoursefromsearch">@Html.Action("GetCategoriesForCourses", "Category")</div>
+        <div class="search-added" id="selected_courses">
+        </div>
+        <br />
+    }
+    else
+    {
+        <div style = "width:20em;overflow:hidden;"><h2>No result found</h2></div>
+
+    }
+</div>

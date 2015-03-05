@@ -1,0 +1,26 @@
+﻿@model Domain.Search
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "searchform" })) {
+    @Html.ValidationSummary(true)
+
+
+    @Html.EditorFor(model => model.SearchWord, new { id = "searchValue" })
+    <input type="submit" value="Search" id="searchbutton"/>
+    <br />
+    @Html.ValidationMessageFor(model => model.SearchWord)
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#searchform').bind('change keyup', function () {
+            if ($(this).validate().checkForm()) {
+                $('#searchbutton').attr("disabled", false);
+            } else {
+                $('#searchbutton').attr("disabled", true);
+            }
+        });
+    });
+</script>
+
+

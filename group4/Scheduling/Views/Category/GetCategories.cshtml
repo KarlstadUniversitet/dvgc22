@@ -1,0 +1,39 @@
+﻿@model Repository.CategoryHandler
+
+@helper recursivSubcatCheckboxes(Domain.Category subcat)
+{
+if (subcat.Categories.Count>0)
+    {
+    <div id="addcategorybox">
+    <ul>
+        @foreach (Domain.Category category in subcat.Categories)
+        {
+            <li>
+            <div class="checkboxtext">- @category.Name</div>
+            </li>
+            if(category.Categories.Count>0)
+            {
+                @recursivSubcatCheckboxes(category)
+            }
+        }
+    </ul>
+    </div>
+     }
+}
+
+
+<form method="post">
+    <ul>
+    @foreach (Domain.Category category in Model.Categories)
+    {
+        <li>
+            <input class="regular-checkbox" type="checkbox" name="category" value="@category.id" /><div class="checkboxtext"><b>@category.Name</b></div>            
+        </li>
+        if(category.Categories.Count>0)
+            {
+                @recursivSubcatCheckboxes(category)
+            }
+    }
+    </ul>
+</form>
+

@@ -1,0 +1,161 @@
+﻿@model Repository.CategoryHandler
+
+@helper recursiveList(Domain.Category cat)
+{
+    foreach (Domain.Application app in cat.Applications)
+    {
+    <li class="has-sub "><a href='/Calendar/Agenda/@app.Code' onclick="load_coursecode('@app.Code')" class="appcolor"><span>@app.CourseCode - @app.CourseName</span></a>
+        <ul>
+            <li class="last"><a href='#' onclick="remove_course_from_category('@cat.id', '@app.Code')" class="removelink"><span>Remove schedule</span></a></li>
+        </ul>
+    </li>
+    }
+}
+<ul>
+     <!--   <li class="header-logo1"><a href='/Home'><span>ʃɛdjuːl</span></a></li> -->
+    <li class="has-sub cathead"><a href="#"><span>Categories</span></a>
+        <ul>
+            @if (Model != null && Model.Categories.Count > 0)
+            {
+                foreach (Domain.Category cat in Model.Categories)
+                {
+                <li class="has-sub"><a href='#' data-info="@cat.Name" class="callink"><span class="boldcategory">@cat.Name</span></a>
+                    <ul>
+                    @foreach (Domain.Application app in cat.Applications)
+                    {
+                        <li class="has-sub"><a href='/Calendar/Agenda/@app.Code' onclick="load_coursecode('@app.Code')" class="appcolor"><span>@app.CourseCode - @app.CourseName</span></a>
+                            <ul>
+                                <li><a href='#' onclick="remove_course_from_category('@cat.id', '@app.Code')" class="removelink"><span>Remove schedule</span></a></li>
+                            </ul>
+                        </li>
+                    }
+                        @foreach (Domain.Category subcat in cat.Categories)
+                        {
+                            <li class='has-sub cathead'><a href='#' data-info="@subcat.ApplicationCodesCommaSeparated()" class="callink"><span class="boldcategory">@subcat.Name</span></a>
+                                <ul>
+                                    @if (subcat.Categories.Count > 0 || subcat.Applications.Count > 0)
+                                    {
+                                        @recursiveList(subcat)       
+                                    }
+                                    <li class='last'><a href="/Category/RemoveCategory/?id=@subcat.id" data-name="@subcat.id" class="removecat"><span class="removelink">Remove @subcat.Name</span></a></li>
+                                </ul>
+                            </li>
+                          }
+                          <li class='last'><a href="/Category/RemoveCategory/?id=@cat.id" data-name="@cat.id" class="removecat"><span class="removelink">Remove @cat.Name</span></a></li>
+                    </ul>
+                </li>
+                }
+            }
+        </ul>
+    </li>
+
+    <li class='last'><a href='/Category/AddCategory'><span>Add new category</span></a></li>
+        <li><div class='popbox'>
+    <a class='open' href='#'>
+      Presentation mode
+    </a>
+
+    <div class='collapse'>
+      <div class='box'>
+        <div class='arrow'></div>
+        <div class='arrow-border'></div>
+
+        
+    <p>Presentation mode settings</p>
+          <div class="PresentationBoxBorder"></div> 
+    <div>
+    <input type="text" id="timeTextbox" placeholder="Timer (in seconds)" />
+        <div class="PresentationBoxBorder"></div> 
+    </div>
+    <div>
+            
+            <small><input type="radio" name="Presentmode" id="AgendaRadio"/>Agenda
+            <input type="radio" name="Presentmode" id="CalenderRadio" />Calender
+             <input type="radio" name="Presentmode" id="BothRadio" checked/>Both</small>
+          </div>
+       <div class="PresentationBoxBorder"></div> 
+         
+       <select class="Transition" id="TransitionOption">
+                 <option value="" disabled selected>Select transition</option>
+                 <option value="fade">Fade</option>
+                 <option value="slide">Slide</option>
+                 <option value="fold">Fold</option>
+                 <option value="scale">Scale</option>
+                 <option value="bounce">Bounce</option>
+        </select>
+        <div class="PresentationBoxBorder"></div> 
+        <input type="checkbox" id="antiSchedule" style="margin-left:-75px">Anti schedule<br>
+        <div class="PresentationBoxBorder"></div> 
+        <input type="submit" style="width:69%" onclick="fullscreenMode();"value="Start presentation" /> 
+        
+
+      </div>
+    </div>
+  </div></li>
+    <li> <button class='buttonTemplate' onclick="textBoxForShareButton();"><span>Share</span></button></li>
+    <li><div id="sharedTextbox"><input id="sharedBox" type="text" value="Loading..." /></div></li>
+    
+
+
+
+</ul>
+
+
+@if (Model == null || !Model.IsLocallyLoaded)
+{
+    <script type="text/javascript">post_from_local_storage();</script>
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+        $('.callink').click(function (event) {
+            event.preventDefault();
+
+            $(this).hasOwnProperty("data")
+            {
+                if ($(this).hasClass('active'))
+                    $(this).removeClass('active');
+                else
+                    $(this).addClass('active');
+            }
+            /*var coursecodes = new Array();
+
+            $('.callink').each(function () {
+                if ($(this).hasClass('active')) {
+                    if ($(this).data('info').toString().indexOf(',') != -1)
+                        coursecodes.push($(this).data('info').split(','));
+                    else
+                        coursecodes.push($(this).data('info'));
+                }
+            });
+            load_coursecode(coursecodes.join(','));*/
+            var staticMode="Month";
+            if (localStorage["bool"] == "true")
+                staticMode = "Agenda";
+            else
+                staticMode = "Month";
+           // $("#content").load("/Calendar/Partial" + staticMode + "Category/" + $(this).data('info').toString());
+            load_course("", staticMode + "Category/" + $(this).data('info').toString().trim());
+            return false;
+        });
+
+        $('.removecat').click(function (event) {
+            event.preventDefault();
+            var url = "/Category/RemoveCategory";
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: { Name: $(this).data('name').toString() },
+                success: function (data) {
+                    store_to_local_storage(data);
+                    document.location = '/';
+                }
+            });
+
+
+        });
+    });
+</script>
+

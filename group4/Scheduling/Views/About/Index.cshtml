@@ -1,0 +1,117 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+
+<div id="about-text">
+<h1>About</h1>
+
+<p>The Scheduling application helps with organizing your TimeEdit schedules. With Scheduling you can
+    search TimeEdit for courses you're currently attending and display them either individually or together.
+    You also have additional options like highlighting all breaks.  
+    </p>
+    <h2>Features:</h2>
+    <ul>
+        <li><b>Categories:</b> arrange your schedules in categories and display the schedules together.</li>
+        <li><b>View-modes:</b> there are two modes: the standard "Calender" mode and the "Agenda" mode, which lists every appointment. </li>
+        <li><b>Toggle-breaks:</b> show all the breaks in the schedule.</li>
+        <li><b>Show only breaks:</b> list only breaks.</li>
+        <li><b>Searching:</b> search either by coursecode or coursename.</li>
+    </ul>
+    <h2>
+        How it works:
+    </h2>
+    <img src="/Content/Images/about_scheduling.png" />
+    <p>
+        By using the search feature, matching results containing available courses are fetched from TimeEdit and presented to the user. 
+        When clicking on the desired course, the schedule is retrieved from TimeEdit by the application, processed and then displayed. 
+        The user can also choose to add one or more courses from the search results to one of their categories. The categories are stored for the user with the help of session cookies
+        and there is also an option to create subcategories to the original categories.
+        
+    </p>
+    <p>The application was based on the project that HT-13 students created and is currently licensed under BSD-license.</p>
+    <p>HT14 Authours continued development was realeased under BSD-license.</p>
+    <div id="authors_table">
+ <table>
+  <tr>
+    <td><h3>HT14 Authors</h3></td>
+    <td><h3>HT13 Authors</h3></td> 
+  </tr>
+  <tr>
+    <td>Amar Krupalija</td>
+    <td>Claes Barthelsson</td> 
+  </tr>
+  <tr>
+    <td>Anton Odén</td>
+    <td>Pontus Ljungdahl</td>
+  </tr>
+  <tr>  
+    <td>Casper Urhed</td>
+    <td>Jonas Nilsson</td>
+  </tr>
+  <tr>
+    <td>Erik Andrejenko</td>
+    <td>Marcus Pieskä</td>
+  </tr>
+  <tr>
+    <td>Magnus Pedersen</td>
+    <td>Christofer Reinholdsson</td> 
+  </tr>
+  <tr>
+    <td>Michael Bui</td>
+    <td>Martin Skoog</td>
+  </tr>
+  <tr>
+    <td>Robert Mossberg</td>  
+    <td>Marcus Storm </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Calle Strömgren</td>
+  </tr>
+  <tr>
+      <td></td>
+    <td>Oscar Ternström</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Simon Vestin</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Alexander Wahlqvist</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Andreas Älveborn</td>
+  </tr>
+</table>
+</div>
+<a href="#license" onclick="$('#license').toggle();">License</a>
+
+
+<div id="license" style="display:none;">Copyright (c) 2013, Software Engineering (DVGC22) HT13 students in group 2 and 4
+<pre>All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the name of the <organization> nor the
+      names of its contributors may be used to endorse or promote products
+      derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
+    </div>
+</div>

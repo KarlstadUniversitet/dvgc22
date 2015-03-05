@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scheduling", "Scheduling\Scheduling.csproj", "{1D0A8BE9-273A-4A74-BD26-599F7A35219A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scheduling.Tests", "Scheduling.Tests\Scheduling.Tests.csproj", "{6AAF3472-1EE0-495F-ACBC-03C3964E84A4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E1EBEA7B-2505-4ACB-A09F-2ADB0A57874A}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{4689848A-D057-4BAE-A11A-C808ABB8F83C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{0A085958-FB63-4CC7-A1B2-187C48B7D50E}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://130.243.17.20:8080/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Domain\\Domain.csproj
+		SccProjectName1 = Domain
+		SccLocalPath1 = Domain
+		SccProjectUniqueName2 = Repository\\Repository.csproj
+		SccProjectName2 = Repository
+		SccLocalPath2 = Repository
+		SccProjectUniqueName3 = Scheduling.Tests\\Scheduling.Tests.csproj
+		SccProjectName3 = Scheduling.Tests
+		SccLocalPath3 = Scheduling.Tests
+		SccProjectUniqueName4 = Scheduling\\Scheduling.csproj
+		SccProjectName4 = Scheduling
+		SccLocalPath4 = Scheduling
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1D0A8BE9-273A-4A74-BD26-599F7A35219A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D0A8BE9-273A-4A74-BD26-599F7A35219A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D0A8BE9-273A-4A74-BD26-599F7A35219A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D0A8BE9-273A-4A74-BD26-599F7A35219A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AAF3472-1EE0-495F-ACBC-03C3964E84A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AAF3472-1EE0-495F-ACBC-03C3964E84A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AAF3472-1EE0-495F-ACBC-03C3964E84A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AAF3472-1EE0-495F-ACBC-03C3964E84A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4689848A-D057-4BAE-A11A-C808ABB8F83C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4689848A-D057-4BAE-A11A-C808ABB8F83C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4689848A-D057-4BAE-A11A-C808ABB8F83C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4689848A-D057-4BAE-A11A-C808ABB8F83C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A085958-FB63-4CC7-A1B2-187C48B7D50E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A085958-FB63-4CC7-A1B2-187C48B7D50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A085958-FB63-4CC7-A1B2-187C48B7D50E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A085958-FB63-4CC7-A1B2-187C48B7D50E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,123 @@
+﻿@model Repository.CalendarViewModel
+@{
+    ViewBag.Title = "Month";
+
+    int days = Model.Days();
+    string todayColor;
+    
+    DateTime dt = DateTime.Today;
+
+    dt = dt.AddDays(-Model.GetFirstDayOfWeek(dt.DayOfWeek));
+}
+
+
+<div id="buttonOptions">
+<div class="titlediv">
+    <h2 class="h2float">Month</h2>
+     <ul class="modeSwitcher">                   
+        <li><a id="agendaMode" href="#" onclick="
+            @if (ViewBag.CategoryName!=null)
+            {
+                @Html.Raw("load_course(\"\",\"AgendaCategory/"+ @ViewBag.CategoryName+"\");")
+            }else
+            {
+               @Html.Raw("load_course(\""+@ViewBag.code+"\",\"Agenda\");")
+            }
+            ">Switch to agenda</a></li>
+    </ul>
+</div>
+<br /><br />
+<div class ="courseList">@{
+    string codeColor;
+    foreach(var lec in Model.GetUniqueCourseList())
+    {
+        codeColor = Model.GetColor(lec);
+        @Html.Raw("<div onclick='hide_div_with("+"\""+@codeColor+"\""+")' class='codeColor " + @codeColor + "'>")
+        @Html.Raw(lec.course.Substring(0,6))   
+        @Html.Raw("</div>")
+    }
+}
+
+</div>
+<div class="breakList">
+    <label onclick="toggle_back();hide_div_with('lectureBreak')" class="breakText colorBreak">Toggle breaks</label>
+    <label onclick="toggle_breaks()" class="breakText colorBreak" id="breaks">Only show breaks</label>
+</div>
+</div>
+
+<div id="calender-wrapper">
+    
+<label onclick="exitButtonClick();" style="float:right;" class="breakText colorBreak" id="exitButton">X</label>
+    
+
+<br />
+    <div class="description"><h1>@Model.Description</h1></div>
+<table class="calheader-top" id="calheader">
+    <thead>
+    <tr>        
+        <th class="calendar-day">W</th>
+        <th class="calendar-day">Monday</th>
+        <th class="calendar-day">Tuesday</th>
+        <th class="calendar-day">Wednesday</th>
+        <th class="calendar-day">Thursday</th>
+        <th class="calendar-day">Friday</th>
+        <th class="calendar-day">Saturday</th>
+        <th class="calendar-day">Sunday</th>
+    </tr>
+    </thead>
+</table>
+<table class="calendar" id="caltable">
+    <tbody>
+    <tr>
+        @for (int i = 1; i <= Model.Weeks() * 7; i++)
+        {
+            
+            if(i % 7 == 1)
+            {
+                @Html.Raw("<td class='week' id='td_week"+i+"'>")
+                @Html.Raw("<div class='div_week' id='div_week"+i+"'>")
+                System.Globalization.CalendarWeekRule rule = System.Globalization.CalendarWeekRule.FirstDay;
+                DayOfWeek firstDay = DayOfWeek.Monday;
+                System.Globalization.Calendar cal = new System.Globalization.GregorianCalendar();
+                @Html.Raw(cal.GetWeekOfYear(dt, rule, firstDay).ToString());
+                @Html.Raw("</div>")
+                @Html.Raw("</td>")
+            }
+
+            if (Model.IsToday(dt))
+            {
+                todayColor = "colorDayMonthView";
+            }
+            else
+            {
+                todayColor = "";
+            }
+            
+            <td class="@todayColor">
+            <span class="calendar-day">@dt.Day @dt.ToString("y")</span>
+            @foreach (Domain.Lecture lecture in Model.lectures)
+            {
+                if (lecture.startTime.Date == dt.Date)
+                {
+                    
+                     <div class="calendar-post @Model.GetColor(lecture)togg  @Model.GetColor(lecture) @lecture.getExamStatus() toggleable">
+                        <p class="time large">@lecture.startTime.ToShortTimeString()-@lecture.endTime.ToShortTimeString()</p>
+                        @*<p class="classroom large">@Html.DisplayFor(lectureModel => lecture.classroom)</p>*@
+                        <div class="clear"></div>
+                        <p class="large">@Html.DisplayFor(lectureModel => lecture.course)</p>
+                        <p class="small">@Html.DisplayFor(lectureModel => lecture.teacher)</p>
+                        <p class="small">@Html.DisplayFor(lectureModel => lecture.info)</p>
+                    </div>      
+                }
+            }
+            </td>
+            if (i % 7 == 0 && i != 0)
+            {
+                @Html.Raw("</tr><tr>")
+            }
+            dt = dt.AddDays(1);
+        }
+    </tr>
+        </tbody>
+</table>
+    </div>

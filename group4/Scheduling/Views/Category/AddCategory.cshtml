@@ -1,0 +1,108 @@
+﻿@model Domain.Category
+
+
+@{
+    ViewBag.Title = "Add Category";
+}
+
+<h2>Add Category</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "categoryform" }))
+{
+    @Html.ValidationSummary(true)
+
+
+
+
+    <div class="editor-field">
+        @Html.LabelFor(model => model.Name)
+        <br />
+        @Html.EditorFor(model => model.Name, new { id = "categoryName" , placeholder="Example: DAI"})
+        <br />
+        @Html.LabelFor(model => model.Description)
+        <br />
+        @Html.TextAreaFor(model => model.Description)
+
+        <label style="display:none; color: red" id="errormsg">Invalid name</label>
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+
+    <p>
+        <input type="submit" value="Create" id="addcategorybutton"/>
+         
+        <input type="submit" value="Add Sub-Category" id="addsubcategorybutton"/>
+    </p>
+    
+    <div id="addcategory">
+        <label>Categories</label>
+
+        @Html.Action("GetCategories", "Category")
+    </div>
+}
+
+<script type="text/javascript">
+    $('#addsubcategorybutton').click(function (e) {
+        e.preventDefault();
+        $('#addcategory :input:checked').each(function () {
+            $('#categoryform').validate().checkForm();
+            var name = $('#Name').val();
+            $.ajax({
+                type: "POST",
+                url: "/Category/AddSubCategory",
+                data: { p: $(this).val(), sub: name },
+                success: function (data) {
+                    //console.log(data);
+                    store_to_local_storage(data);
+                }
+            });
+        });
+        setTimeout(function () { document.location = '/Category/AddCategory' }, 1000);
+        return false;
+
+    });
+
+
+    $('#categoryform').bind('change keyup', function () {
+        if ($(this).validate().checkForm()) {
+            $('#addsubcategorybutton').attr("disabled", false);
+        } else {
+            $('#addsubcategorybutton').attr("disabled", true);
+        }
+    });
+</script>
+
+
+<script type="text/javascript">
+    $('#addcategorybutton').click(function (e) {
+        e.preventDefault();
+        $('#categoryform').validate().checkForm();
+        var url = "/Category/AddCategory";
+        var catName = $('#Name').val();
+        var description = $('#Description').val();
+        console.log(catName);
+        if ($('#categoryform').validate().checkForm()) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { Name: catName, Description: description },
+                success: function (data) {
+                    console.log(data);
+                    store_to_local_storage(data);
+                    document.location = '/Category/AddCategory';
+                }
+            });
+        }
+        
+        return false;
+
+    });
+
+    $('#categoryform').bind('change keyup', function () {
+        if ($(this).validate().checkForm()) {
+            $('#addcategorybutton').attr("disabled", false);
+        } else {
+            $('#addcategorybutton').attr("disabled", true);
+        }
+    });
+</script>
+
